@@ -50,6 +50,13 @@ resource "aws_instance" "bastion" {
   associate_public_ip_address = true
   key_name                    = aws_key_pair.generated_key.key_name
 
+   ebs {
+      volume_size           = var.disk_volume_size
+      volume_type           = var.disk_volume_type
+      encrypted             = var.disk_encrypted
+      delete_on_termination = var.disk_delete_on_termination
+    }
+
   metadata_options {
     http_endpoint = "enabled"
     http_tokens   = "required"
