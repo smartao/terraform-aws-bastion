@@ -17,7 +17,7 @@ variable "environment" {
 variable "bastion_ssh_ingress_cidrs" {
   description = "List of CIDR blocks allowed to SSH into the bastion host"
   type        = list(string)
-
+  default     = ["0.0.0.0/0"]
   validation {
     condition = (
       var.environment != "prod" ||
@@ -30,6 +30,7 @@ variable "bastion_ssh_ingress_cidrs" {
 variable "name_prefix" {
   description = "Prefix for naming resources"
   type        = string
+  default     = "bastion-dev"
 
   validation {
     condition     = length(var.name_prefix) <= 32
