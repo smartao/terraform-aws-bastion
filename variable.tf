@@ -46,7 +46,6 @@ variable "instance_type" {
   }
 }
 
-
 variable "ssh_public_key" {
   description = "The public key for SSH access to EC2 instances"
   type        = string
@@ -55,4 +54,43 @@ variable "ssh_public_key" {
     condition     = can(regex("^ssh-(rsa|ed25519)\\s+[A-Za-z0-9+/=]+", var.ssh_public_key))
     error_message = "VALIDATION: Invalid SSH public key format."
   }
+}
+
+
+### Disk
+variable "disk_volume_size" {
+  description = "The size of the EBS volume in GB"
+  type        = number
+  default     = 20
+
+  validation {
+    condition     = var.disk_volume_size >= 20 && var.disk_volume_size <= 16384
+    error_message = "VALIDATION: disk_volume_size must be between 20 and 16384 GB."
+  }
+}
+
+variable "disk_volume_type" {
+  description = "The type of the EBS volume"
+  type        = string
+  default     = "gp3"
+
+  validation {
+    condition = contains(
+      ["gp3", "gp2", "io1", "io2", "st1", "sc1"],
+      var.disk_volume_type
+    )
+    error_message = "VALIDATION: disk_volume_type must be: gp3, gp2, io1, io2, st1 or sc1."
+  }
+}
+
+variable "disk_encrypted" {
+  description = "Defines whether the EBS volume will be encrypted."
+  type        = bool
+  default     = true
+}
+
+variable "disk_delete_on_termination" {
+  description = "Defines whether the EBS volume will be deleted when the instance is terminated."
+  type        = bool
+  default     = true
 }

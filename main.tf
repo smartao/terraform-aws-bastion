@@ -8,6 +8,7 @@ resource "aws_security_group" "sg_bastion" {
   }
 }
 
+#tfsec:ignore:aws-ec2-no-public-egress-sgr
 resource "aws_security_group_rule" "allow_bastion_to_internet" {
   type              = "egress"
   from_port         = 0
