@@ -51,11 +51,14 @@ resource "aws_instance" "bastion" {
   key_name                    = aws_key_pair.generated_key.key_name
 
   root_block_device {
-      volume_size           = var.disk_volume_size
-      volume_type           = var.disk_volume_type
-      encrypted             = var.disk_encrypted
-      delete_on_termination = var.disk_delete_on_termination
+    volume_size           = var.disk_volume_size
+    volume_type           = var.disk_volume_type
+    encrypted             = var.disk_encrypted
+    delete_on_termination = var.disk_delete_on_termination
+    tags = {
+      Name = "${var.name_prefix}-bastion-root"
     }
+  }
 
   metadata_options {
     http_endpoint = "enabled"

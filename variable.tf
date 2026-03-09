@@ -11,6 +11,7 @@ variable "public_subnet_ids" {
 variable "environment" {
   description = "Environment tag for resources"
   type        = string
+  default     = "dev"
 }
 
 variable "bastion_ssh_ingress_cidrs" {
