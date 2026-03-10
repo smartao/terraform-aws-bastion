@@ -14,5 +14,4 @@ run "ssh_port_should_be_22" {
     condition     = aws_security_group_rule.allow_ssh_bastion_from_internet.from_port == 22
     error_message = "SSH ingress port must be 22"
   }
-
 }

@@ -32,7 +32,7 @@ resource "aws_security_group_rule" "allow_ssh_bastion_from_internet" {
 
 
 data "aws_ssm_parameter" "ubuntu" {
-  name = "/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id"
+  name = var.ssm_parameter_name
 }
 
 resource "aws_key_pair" "generated_key" {

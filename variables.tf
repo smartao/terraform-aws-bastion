@@ -48,6 +48,12 @@ variable "instance_type" {
   }
 }
 
+variable "ssm_parameter_name" {
+  description = "The name of the SSM parameter that contains the AMI ID for the Bastion Host"
+  type        = string
+  default     = "/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id"
+}
+
 variable "ssh_public_key" {
   description = "The public key for SSH access to EC2 instances"
   type        = string
