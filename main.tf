@@ -50,6 +50,8 @@ resource "aws_instance" "bastion" {
   associate_public_ip_address = true
   key_name                    = aws_key_pair.generated_key.key_name
 
+  user_data = var.user_data
+
   root_block_device {
     volume_size           = var.disk_volume_size
     volume_type           = var.disk_volume_type

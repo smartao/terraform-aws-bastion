@@ -64,6 +64,11 @@ variable "ssh_public_key" {
   }
 }
 
+variable "user_data" {
+  description = "Optional user data script to run on instance launch"
+  type        = string
+  default     = null
+}
 
 ### Disk
 variable "disk_volume_size" {
