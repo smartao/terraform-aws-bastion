@@ -1,10 +1,10 @@
-# terraform-aws-bastion
+# 📦 terraform-aws-bastion
 
 Terraform module to provision an AWS bastion host in an existing VPC.
 
 The module creates a public EC2 instance, an SSH security group, an EC2 key pair, and a root volume with configurable encryption and size. It is intended to provide a controlled entry point for accessing private resources inside a VPC.
 
-## What This Module Does
+## ⚙️ What This Module Does
 
 - Creates one EC2 bastion host in the first subnet from `public_subnet_ids`
 - Creates a security group for SSH access
@@ -13,7 +13,7 @@ The module creates a public EC2 instance, an SSH security group, an EC2 key pair
 - Enforces IMDSv2 on the instance
 - Configures the root EBS volume
 
-## Important Notes
+## ⚠️ Important Notes
 
 - This module does not create the VPC or subnets
 - The bastion is launched in `public_subnet_ids[0]`
@@ -21,7 +21,7 @@ The module creates a public EC2 instance, an SSH security group, an EC2 key pair
 - In `prod`, validation blocks `0.0.0.0/0` for `bastion_ssh_ingress_cidrs`
 - `instance_type` is validated to the `t3` family only
 
-## Prerequisites
+## 📑 Prerequisites
 
 Before using this module, you should already have:
 
@@ -36,7 +36,7 @@ Example key generation:
 ssh-keygen -t ed25519 -f ~/.ssh/bastion_key
 ```
 
-## Quick Start
+## 🚀 Quick Start
 
 ```hcl
 provider "aws" {
@@ -62,7 +62,7 @@ terraform plan
 terraform apply
 ```
 
-## Security Guidance
+## 🔐 Security Guidance
 
 - Do not keep `bastion_ssh_ingress_cidrs` open to `0.0.0.0/0` outside disposable test environments
 - Use `/32` CIDRs whenever possible
@@ -70,7 +70,7 @@ terraform apply
 - Review any `user_data` passed to the instance
 - Prefer remote state and a review process before `apply`
 
-## Typical Use Case
+## 📁 Typical Use Case
 
 ```text
 Internet
@@ -85,7 +85,7 @@ Private Infrastructure
   `- Internal services
 ```
 
-## Example
+## 🧩 Example
 
 - [Simple example](examples/simple)
 
