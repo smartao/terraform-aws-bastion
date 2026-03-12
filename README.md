@@ -1,88 +1,93 @@
-# 📦 terraform-aws-bastion
+# terraform-aws-bastion
 
-Terraform module to provision a **secure Bastion Host on AWS**, enabling controlled SSH access to resources inside a VPC.
+Terraform module to provision an AWS bastion host in an existing VPC.
 
-This module creates a Bastion EC2 instance in a **public subnet**, configured with a **security group allowing SSH access only from trusted CIDR blocks**.
+The module creates a public EC2 instance, an SSH security group, an EC2 key pair, and a root volume with configurable encryption and size. It is intended to provide a controlled entry point for accessing private resources inside a VPC.
 
-It is designed to provide a **simple and secure entry point** for administrators to access private infrastructure (e.g., private EC2 instances, RDS databases, or internal services).
+## What This Module Does
 
----
+- Creates one EC2 bastion host in the first subnet from `public_subnet_ids`
+- Creates a security group for SSH access
+- Creates an AWS key pair from the provided public key
+- Uses an AMI resolved from AWS Systems Manager Parameter Store
+- Enforces IMDSv2 on the instance
+- Configures the root EBS volume
 
-## 🚀 Features
+## Important Notes
 
-This module provisions:
+- This module does not create the VPC or subnets
+- The bastion is launched in `public_subnet_ids[0]`
+- The default SSH ingress is `0.0.0.0/0`; override it explicitly for real environments
+- In `prod`, validation blocks `0.0.0.0/0` for `bastion_ssh_ingress_cidrs`
+- `instance_type` is validated to the `t3` family only
 
-* EC2 Bastion Host
-* Security Group with restricted SSH access
-* Outbound internet access for updates and package installation
-* SSH Key Pair creation
-* Root EBS volume configuration
-* IMDSv2 enforcement (instance metadata security)
-* AMI lookup via **SSM Parameter Store**
+## Prerequisites
 
----
+Before using this module, you should already have:
 
-## 🧱 Resources Created
+- An existing VPC
+- At least one public subnet
+- AWS credentials configured for Terraform
+- An SSH public key in a valid `ssh-rsa` or `ssh-ed25519` format
 
-The module creates the following AWS resources:
+Example key generation:
 
-* `aws_instance` – Bastion Host EC2 instance
-* `aws_security_group` – Bastion security group
-* `aws_security_group_rule` – SSH ingress rule and outbound rule
-* `aws_key_pair` – SSH key pair for access
-* `aws_ssm_parameter` (data source) – Retrieves latest AMI
-
----
-
-## 🔐 Security Considerations
-
-This module follows several security best practices:
-
-* SSH access restricted to **trusted CIDR ranges**
-* **IMDSv2 enforced**
-* Bastion deployed in a **public subnet only**
-* Security group rules defined separately for clarity
-* Sensitive credentials are **not hardcoded**
-
----
-
-## 📁 Typical Use Case
-
-This module is useful when you need a **secure jump host** to access private resources inside a VPC:
-
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/bastion_key
 ```
+
+## Quick Start
+
+```hcl
+provider "aws" {
+  region = "us-east-1"
+}
+
+module "bastion" {
+  source = "./"
+
+  vpc_id                    = "vpc-1234567890abcdef0"
+  public_subnet_ids         = ["subnet-1234567890abcdef0"]
+  ssh_public_key            = file("${path.module}/bastion_key.pub")
+  bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
+  environment               = "dev"
+}
+```
+
+Run:
+
+```bash
+terraform init
+terraform plan
+terraform apply
+```
+
+## Security Guidance
+
+- Do not keep `bastion_ssh_ingress_cidrs` open to `0.0.0.0/0` outside disposable test environments
+- Use `/32` CIDRs whenever possible
+- Keep root volume encryption enabled
+- Review any `user_data` passed to the instance
+- Prefer remote state and a review process before `apply`
+
+## Typical Use Case
+
+```text
 Internet
-    │
-    ▼
-Bastion Host (Public Subnet)
-    │
-    ▼
+    |
+    v
+Bastion Host (public subnet)
+    |
+    v
 Private Infrastructure
- ├─ EC2 instances
- ├─ Databases
- └─ Internal services
+  |- EC2 instances
+  |- Databases
+  `- Internal services
 ```
 
----
+## Example
 
-## 🧩 Example Usage
-
-[Simple Example](examples/simple)
-
-
----
-
-## ⚠️ Best Practices
-
-Always:
-
-* Run `terraform plan` before `terraform apply`
-* Restrict `bastion_ssh_ingress_cidrs` to **specific IPs**
-* Store Terraform code in **version control**
-* Consider using **remote state** (S3 + DynamoDB) for team environments
-
-
-
+- [Simple example](examples/simple)
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements

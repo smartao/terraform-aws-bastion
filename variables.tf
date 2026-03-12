@@ -89,10 +89,10 @@ variable "disk_volume_type" {
 
   validation {
     condition = contains(
-      ["gp3", "gp2", "io1", "io2", "st1", "sc1"],
+      ["gp3", "gp2"],
       var.disk_volume_type
     )
-    error_message = "VALIDATION: disk_volume_type must be: gp3, gp2, io1, io2, st1 or sc1."
+    error_message = "VALIDATION: disk_volume_type must be: gp3, gp2."
   }
 }
 

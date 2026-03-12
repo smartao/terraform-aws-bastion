@@ -3,10 +3,12 @@ provider "aws" {
 }
 
 module "bastion" {
-  source  = "smartao/bastion/aws"
-  version = "0.2.1"
+  source = "../../"
 
-  vpc_id            = "vpc-123456"
-  public_subnet_ids = ["subnet-123456"]
-  ssh_public_key    = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
+  vpc_id                    = "vpc-1234567890abcdef0"
+  public_subnet_ids         = ["subnet-1234567890abcdef0"]
+  ssh_public_key            = file("/path/to/your/bastion_key.pub")
+  bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
+  environment               = "dev"
+  name_prefix               = "example-bastion"
 }
