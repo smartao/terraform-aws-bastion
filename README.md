@@ -16,7 +16,7 @@ The module creates a public EC2 instance, an SSH security group, an EC2 key pair
 ## ⚠️ Important Notes
 
 - This module does not create the VPC or subnets
-- The bastion is launched in `public_subnet_ids[0]`
+- The bastion is launched in `public_subnet_ids[0]`, so at least one public subnet ID is required
 - `bastion_ssh_ingress_cidrs` is required and should be restricted to trusted sources
 - In `prod`, validation blocks `0.0.0.0/0` for `bastion_ssh_ingress_cidrs`
 - `instance_type` is validated to the `t3` family only

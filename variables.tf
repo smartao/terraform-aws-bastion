@@ -6,6 +6,11 @@ variable "vpc_id" {
 variable "public_subnet_ids" {
   description = "List of public subnet IDs for the Bastion Host"
   type        = list(string)
+
+  validation {
+    condition     = length(var.public_subnet_ids) > 0
+    error_message = "VALIDATION: public_subnet_ids must contain at least one public subnet ID."
+  }
 }
 
 variable "environment" {

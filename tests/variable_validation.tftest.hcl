@@ -72,3 +72,19 @@ run "disk_volume_type_must_be_supported" {
     var.disk_volume_type
   ]
 }
+
+run "public_subnet_ids_must_not_be_empty" {
+
+  command = plan
+
+  variables {
+    vpc_id                    = "vpc-123456"
+    public_subnet_ids         = []
+    ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
+    bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
+  }
+
+  expect_failures = [
+    var.public_subnet_ids
+  ]
+}
