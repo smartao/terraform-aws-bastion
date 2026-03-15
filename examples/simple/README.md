@@ -39,5 +39,5 @@ terraform apply
 ## Notes
 
 - The module creates the bastion in the first subnet from `public_subnet_ids`
-- The module default for SSH ingress is open unless you override `bastion_ssh_ingress_cidrs`
+- `bastion_ssh_ingress_cidrs` is required and must be set explicitly
 - For real environments, restrict SSH access to trusted CIDRs such as your public IP with `/32`
