@@ -7,8 +7,9 @@ run "create_bastion_with_custom_settings" {
     public_subnet_ids = [
       "subnet-123456"
     ]
-    ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
-    instance_type  = "t3.small"
+    ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
+    bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
+    instance_type             = "t3.small"
   }
 
   assert {

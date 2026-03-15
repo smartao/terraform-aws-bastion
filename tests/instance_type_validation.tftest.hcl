@@ -7,7 +7,8 @@ run "instance_type_must_be_t3" {
     public_subnet_ids = [
       "subnet-123456"
     ]
-    ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
+    ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
+    bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
 
     instance_type = "m5.large"
   }
@@ -27,7 +28,8 @@ run "instance_type_allows_other_t3_sizes" {
     public_subnet_ids = [
       "subnet-123456"
     ]
-    ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
+    ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
+    bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
 
     instance_type = "t3.small"
   }

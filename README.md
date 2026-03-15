@@ -17,7 +17,7 @@ The module creates a public EC2 instance, an SSH security group, an EC2 key pair
 
 - This module does not create the VPC or subnets
 - The bastion is launched in `public_subnet_ids[0]`
-- The default SSH ingress is `0.0.0.0/0`; override it explicitly for real environments
+- `bastion_ssh_ingress_cidrs` is required and should be restricted to trusted sources
 - In `prod`, validation blocks `0.0.0.0/0` for `bastion_ssh_ingress_cidrs`
 - `instance_type` is validated to the `t3` family only
 
@@ -121,7 +121,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_bastion_ssh_ingress_cidrs"></a> [bastion\_ssh\_ingress\_cidrs](#input\_bastion\_ssh\_ingress\_cidrs) | List of CIDR blocks allowed to SSH into the bastion host | `list(string)` | <pre>[<br/>  "0.0.0.0/0"<br/>]</pre> | no |
+| <a name="input_bastion_ssh_ingress_cidrs"></a> [bastion\_ssh\_ingress\_cidrs](#input\_bastion\_ssh\_ingress\_cidrs) | List of CIDR blocks allowed to SSH into the bastion host | `list(string)` | n/a | yes |
 | <a name="input_disk_delete_on_termination"></a> [disk\_delete\_on\_termination](#input\_disk\_delete\_on\_termination) | Defines whether the EBS volume will be deleted when the instance is terminated. | `bool` | `true` | no |
 | <a name="input_disk_encrypted"></a> [disk\_encrypted](#input\_disk\_encrypted) | Defines whether the EBS volume will be encrypted. | `bool` | `true` | no |
 | <a name="input_disk_volume_size"></a> [disk\_volume\_size](#input\_disk\_volume\_size) | The size of the EBS volume in GB | `number` | `20` | no |
