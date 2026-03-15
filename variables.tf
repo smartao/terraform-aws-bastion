@@ -17,7 +17,12 @@ variable "environment" {
 variable "bastion_ssh_ingress_cidrs" {
   description = "List of CIDR blocks allowed to SSH into the bastion host"
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+
+  validation {
+    condition     = length(var.bastion_ssh_ingress_cidrs) > 0
+    error_message = "VALIDATION: bastion_ssh_ingress_cidrs must contain at least one trusted CIDR."
+  }
+
   validation {
     condition = (
       var.environment != "prod" ||
