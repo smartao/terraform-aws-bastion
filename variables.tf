@@ -29,6 +29,13 @@ variable "bastion_ssh_ingress_cidrs" {
   }
 
   validation {
+    condition = alltrue([
+      for cidr in var.bastion_ssh_ingress_cidrs : can(cidrhost(cidr, 0))
+    ])
+    error_message = "VALIDATION: bastion_ssh_ingress_cidrs must contain only valid IPv4 or IPv6 CIDR blocks."
+  }
+
+  validation {
     condition = (
       !contains(["prod", "production"], lower(trimspace(var.environment))) ||
       !contains(var.bastion_ssh_ingress_cidrs, "0.0.0.0/0")

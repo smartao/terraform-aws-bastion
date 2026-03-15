@@ -40,6 +40,24 @@ run "ssh_public_key_must_be_valid" {
   ]
 }
 
+run "ssh_cidrs_must_be_valid_cidr_blocks" {
+
+  command = plan
+
+  variables {
+    vpc_id = "vpc-123456"
+    public_subnet_ids = [
+      "subnet-123456"
+    ]
+    ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
+    bastion_ssh_ingress_cidrs = ["not-a-cidr"]
+  }
+
+  expect_failures = [
+    var.bastion_ssh_ingress_cidrs
+  ]
+}
+
 run "disk_volume_size_must_be_in_range" {
 
   command = plan
