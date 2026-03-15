@@ -100,7 +100,7 @@ Private Infrastructure
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.35.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.35.1, < 7.0.0 |
 
 ## Modules
 
