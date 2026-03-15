@@ -1,3 +1,8 @@
+mock_provider "aws" {
+  source          = "./tests/aws"
+  override_during = plan
+}
+
 run "create_bastion_with_custom_settings" {
 
   command = plan

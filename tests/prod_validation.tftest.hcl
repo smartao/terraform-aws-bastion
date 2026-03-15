@@ -1,3 +1,8 @@
+mock_provider "aws" {
+  source          = "./tests/aws"
+  override_during = plan
+}
+
 run "prod_must_not_allow_open_ssh" {
 
   command = plan

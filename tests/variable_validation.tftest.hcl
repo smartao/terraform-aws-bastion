@@ -1,3 +1,8 @@
+mock_provider "aws" {
+  source          = "./tests/aws"
+  override_during = plan
+}
+
 run "name_prefix_must_be_short_enough" {
 
   command = plan

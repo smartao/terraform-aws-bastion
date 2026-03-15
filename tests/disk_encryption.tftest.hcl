@@ -1,3 +1,8 @@
+mock_provider "aws" {
+  source          = "./tests/aws"
+  override_during = plan
+}
+
 run "disk_should_be_encrypted_by_default" {
 
   command = plan

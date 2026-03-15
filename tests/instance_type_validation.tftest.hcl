@@ -1,3 +1,8 @@
+mock_provider "aws" {
+  source          = "./tests/aws"
+  override_during = plan
+}
+
 run "instance_type_must_be_t3" {
 
   command = plan

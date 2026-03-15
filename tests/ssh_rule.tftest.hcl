@@ -1,3 +1,8 @@
+mock_provider "aws" {
+  source          = "./tests/aws"
+  override_during = plan
+}
+
 run "ssh_rule_should_use_port_22_and_input_cidrs" {
 
   command = plan
