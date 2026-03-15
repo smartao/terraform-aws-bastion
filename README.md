@@ -45,7 +45,7 @@ provider "aws" {
 }
 
 module "bastion" {
-  source = "./"
+  source = "sergeimatos/bastion/aws"
 
   vpc_id                    = "vpc-1234567890abcdef0"
   public_subnet_ids         = ["subnet-1234567890abcdef0"]
@@ -89,6 +89,7 @@ Private Infrastructure
 ## 🧩 Example
 
 - [Simple example](examples/simple)
+- The `examples/simple` directory uses a local relative source for development and testing of this repository
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
