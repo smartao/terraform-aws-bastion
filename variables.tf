@@ -30,7 +30,7 @@ variable "bastion_ssh_ingress_cidrs" {
 
   validation {
     condition = (
-      var.environment != "prod" ||
+      !contains(["prod", "production"], lower(trimspace(var.environment))) ||
       !contains(var.bastion_ssh_ingress_cidrs, "0.0.0.0/0")
     )
     error_message = "VALIDATION: In production, SSH access cannot be open to 0.0.0.0/0."
