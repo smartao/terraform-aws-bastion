@@ -12,6 +12,7 @@ The module creates a public EC2 instance, an SSH security group, an EC2 key pair
 - Uses an AMI resolved from AWS Systems Manager Parameter Store
 - Enforces IMDSv2 on the instance
 - Configures the root EBS volume
+- Tags the bastion resources with `Environment`
 
 ## ⚠️ Important Notes
 

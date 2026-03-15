@@ -9,6 +9,7 @@ run "create_bastion_with_custom_settings" {
     ]
     ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
     bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
+    environment               = "staging"
     instance_type             = "t3.small"
   }
 
@@ -25,5 +26,10 @@ run "create_bastion_with_custom_settings" {
   assert {
     condition     = aws_instance.bastion.metadata_options[0].http_tokens == "required"
     error_message = "Bastion instance must require IMDSv2 tokens."
+  }
+
+  assert {
+    condition     = aws_instance.bastion.tags["Environment"] == "staging"
+    error_message = "Bastion instance should include the Environment tag from module input."
   }
 }

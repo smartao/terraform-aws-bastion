@@ -4,7 +4,8 @@ resource "aws_security_group" "sg_bastion" {
   vpc_id      = var.vpc_id
 
   tags = {
-    Name = "${var.name_prefix}-bastion-sg"
+    Name        = "${var.name_prefix}-bastion-sg"
+    Environment = var.environment
   }
 }
 
@@ -58,7 +59,8 @@ resource "aws_instance" "bastion" {
     encrypted             = var.disk_encrypted
     delete_on_termination = var.disk_delete_on_termination
     tags = {
-      Name = "${var.name_prefix}-bastion-root"
+      Name        = "${var.name_prefix}-bastion-root"
+      Environment = var.environment
     }
   }
 
@@ -68,6 +70,7 @@ resource "aws_instance" "bastion" {
   }
 
   tags = {
-    Name = "${var.name_prefix}-BastionHost"
+    Name        = "${var.name_prefix}-BastionHost"
+    Environment = var.environment
   }
 }
