@@ -12,7 +12,7 @@ The module creates a public EC2 instance, an SSH security group, an EC2 key pair
 - Uses an AMI resolved from AWS Systems Manager Parameter Store
 - Enforces IMDSv2 on the instance
 - Configures the root EBS volume
-- Tags the bastion resources with `Environment`
+- Tags the bastion resources with `Environment` and supports custom `tags` map
 
 ## ⚠️ Important Notes
 
@@ -52,6 +52,10 @@ module "bastion" {
   ssh_public_key            = file("${path.module}/bastion_key.pub")
   bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
   environment               = "dev"
+
+  tags = {
+    Project = "Security-Infrastructure"
+  }
 }
 ```
 
@@ -75,6 +79,7 @@ ssh -i ~/.ssh/bastion_key ubuntu@$(terraform output -raw bastion_public_ip)
 - Use `/32` CIDRs whenever possible
 - Keep root volume encryption enabled
 - Review any `user_data` passed to the instance
+- **Egress Traffic:** By default, this module allows all outbound traffic (`0.0.0.0/0`) to allow for package installations and updates via `apt`.
 - Prefer remote state and a review process before `apply`
 
 ## 📁 Typical Use Case
@@ -138,9 +143,10 @@ No modules.
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment tag for resources | `string` | `"dev"` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type for the EC2 instances | `string` | `"t3.micro"` | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Prefix for naming resources | `string` | `"bastion-dev"` | no |
-| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The public subnet ID where the Bastion Host will be launched | `string` | n/a | yes |
 | <a name="input_ssh_public_key"></a> [ssh\_public\_key](#input\_ssh\_public\_key) | The public key for SSH access to EC2 instances | `string` | n/a | yes |
 | <a name="input_ssm_parameter_name"></a> [ssm\_parameter\_name](#input\_ssm\_parameter\_name) | The name of the SSM parameter that contains the AMI ID for the Bastion Host | `string` | `"/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id"` | no |
+| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The public subnet ID where the Bastion Host will be launched | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of custom tags to add to all resources | `map(string)` | `{}` | no |
 | <a name="input_user_data"></a> [user\_data](#input\_user\_data) | Optional user data script to run on instance launch | `string` | `null` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of the VPC | `string` | n/a | yes |
 

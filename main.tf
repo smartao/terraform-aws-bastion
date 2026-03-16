@@ -3,10 +3,13 @@ resource "aws_security_group" "sg_bastion" {
   description = "Allow SSH access to Bastion Host"
   vpc_id      = var.vpc_id
 
-  tags = {
-    Name        = "${var.name_prefix}-bastion-sg"
-    Environment = var.environment
-  }
+  tags = merge(
+    {
+      Name        = "${var.name_prefix}-bastion-sg"
+      Environment = var.environment
+    },
+    var.tags
+  )
 }
 
 #tfsec:ignore:aws-ec2-no-public-egress-sgr
@@ -58,10 +61,13 @@ resource "aws_instance" "bastion" {
     volume_type           = var.disk_volume_type
     encrypted             = var.disk_encrypted
     delete_on_termination = var.disk_delete_on_termination
-    tags = {
-      Name        = "${var.name_prefix}-bastion-root"
-      Environment = var.environment
-    }
+    tags = merge(
+      {
+        Name        = "${var.name_prefix}-bastion-root"
+        Environment = var.environment
+      },
+      var.tags
+    )
   }
 
   metadata_options {
@@ -69,8 +75,11 @@ resource "aws_instance" "bastion" {
     http_tokens   = "required"
   }
 
-  tags = {
-    Name        = "${var.name_prefix}-BastionHost"
-    Environment = var.environment
-  }
+  tags = merge(
+    {
+      Name        = "${var.name_prefix}-BastionHost"
+      Environment = var.environment
+    },
+    var.tags
+  )
 }

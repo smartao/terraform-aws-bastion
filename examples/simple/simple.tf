@@ -12,4 +12,9 @@ module "bastion" {
   bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
   environment               = "dev"
   name_prefix               = "example-bastion"
+
+  tags = {
+    Project   = "Security"
+    ManagedBy = "Terraform"
+  }
 }

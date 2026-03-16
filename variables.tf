@@ -124,3 +124,9 @@ variable "disk_delete_on_termination" {
   type        = bool
   default     = true
 }
+
+variable "tags" {
+  description = "A map of custom tags to add to all resources"
+  type        = map(string)
+  default     = {}
+}
