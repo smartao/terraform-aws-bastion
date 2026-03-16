@@ -63,6 +63,12 @@ terraform plan
 terraform apply
 ```
 
+To connect to your Bastion Host:
+
+```bash
+ssh -i ~/.ssh/bastion_key ubuntu@$(terraform output -raw bastion_public_ip)
+```
+
 ## 🔐 Security Guidance
 
 - Do not keep `bastion_ssh_ingress_cidrs` open to `0.0.0.0/0` outside disposable test environments
@@ -145,4 +151,5 @@ No modules.
 | <a name="output_bastion_public_dns"></a> [bastion\_public\_dns](#output\_bastion\_public\_dns) | The public DNS name of the Bastion Host |
 | <a name="output_bastion_public_ip"></a> [bastion\_public\_ip](#output\_bastion\_public\_ip) | The public IP address of the Bastion Host |
 | <a name="output_bastion_sg_id"></a> [bastion\_sg\_id](#output\_bastion\_sg\_id) | The ID of the Security Group for the Bastion Host |
+| <a name="output_ssh_user"></a> [ssh\_user](#output\_ssh\_user) | The typical default SSH user for the provisioned AMI |
 <!-- END_TF_DOCS -->

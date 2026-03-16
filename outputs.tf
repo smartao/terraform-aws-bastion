@@ -12,3 +12,8 @@ output "bastion_public_dns" {
   description = "The public DNS name of the Bastion Host"
   value       = aws_instance.bastion.public_dns
 }
+
+output "ssh_user" {
+  description = "The typical default SSH user for the provisioned AMI"
+  value       = "ubuntu"
+}
