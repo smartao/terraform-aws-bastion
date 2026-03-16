@@ -9,9 +9,7 @@ run "name_prefix_must_be_short_enough" {
 
   variables {
     vpc_id = "vpc-123456"
-    public_subnet_ids = [
-      "subnet-123456"
-    ]
+    subnet_id = "subnet-123456"
     ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
     bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
     name_prefix               = "this-prefix-is-definitely-longer-than-thirty-two-characters"
@@ -28,9 +26,7 @@ run "ssh_public_key_must_be_valid" {
 
   variables {
     vpc_id = "vpc-123456"
-    public_subnet_ids = [
-      "subnet-123456"
-    ]
+    subnet_id = "subnet-123456"
     ssh_public_key            = "invalid-key"
     bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
   }
@@ -46,9 +42,7 @@ run "ssh_cidrs_must_be_valid_cidr_blocks" {
 
   variables {
     vpc_id = "vpc-123456"
-    public_subnet_ids = [
-      "subnet-123456"
-    ]
+    subnet_id = "subnet-123456"
     ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
     bastion_ssh_ingress_cidrs = ["not-a-cidr"]
   }
@@ -64,9 +58,7 @@ run "disk_volume_size_must_be_in_range" {
 
   variables {
     vpc_id = "vpc-123456"
-    public_subnet_ids = [
-      "subnet-123456"
-    ]
+    subnet_id = "subnet-123456"
     ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
     bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
     disk_volume_size          = 10
@@ -83,9 +75,7 @@ run "disk_volume_type_must_be_supported" {
 
   variables {
     vpc_id = "vpc-123456"
-    public_subnet_ids = [
-      "subnet-123456"
-    ]
+    subnet_id = "subnet-123456"
     ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
     bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
     disk_volume_type          = "io2"
@@ -96,18 +86,18 @@ run "disk_volume_type_must_be_supported" {
   ]
 }
 
-run "public_subnet_ids_must_not_be_empty" {
+run "subnet_id_must_be_valid" {
 
   command = plan
 
   variables {
     vpc_id                    = "vpc-123456"
-    public_subnet_ids         = []
+    subnet_id                 = "invalid-subnet"
     ssh_public_key            = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
     bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
   }
 
   expect_failures = [
-    var.public_subnet_ids
+    var.subnet_id
   ]
 }

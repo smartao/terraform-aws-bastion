@@ -9,9 +9,7 @@ run "prod_must_not_allow_open_ssh" {
 
   variables {
     vpc_id = "vpc-123456"
-    public_subnet_ids = [
-      "subnet-123456"
-    ]
+    subnet_id = "subnet-123456"
     ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
 
     environment = "prod"
@@ -31,9 +29,7 @@ run "production_aliases_must_not_allow_open_ssh" {
 
   variables {
     vpc_id = "vpc-123456"
-    public_subnet_ids = [
-      "subnet-123456"
-    ]
+    subnet_id = "subnet-123456"
     ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
 
     environment = "Prod"
@@ -53,9 +49,7 @@ run "prod_allows_restricted_ssh_cidrs" {
 
   variables {
     vpc_id = "vpc-123456"
-    public_subnet_ids = [
-      "subnet-123456"
-    ]
+    subnet_id = "subnet-123456"
     ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
 
     environment = "prod"

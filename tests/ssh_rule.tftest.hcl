@@ -9,9 +9,7 @@ run "ssh_rule_should_use_port_22_and_input_cidrs" {
 
   variables {
     vpc_id = "vpc-123456"
-    public_subnet_ids = [
-      "subnet-123456"
-    ]
+    subnet_id = "subnet-123456"
     ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey"
     bastion_ssh_ingress_cidrs = [
       "203.0.113.10/32"

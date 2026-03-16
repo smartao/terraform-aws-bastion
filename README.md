@@ -6,7 +6,7 @@ The module creates a public EC2 instance, an SSH security group, an EC2 key pair
 
 ## ⚙️ What This Module Does
 
-- Creates one EC2 bastion host in the first subnet from `public_subnet_ids`
+- Creates one EC2 bastion host in the provided `subnet_id`
 - Creates a security group for SSH access
 - Creates an AWS key pair from the provided public key
 - Uses an AMI resolved from AWS Systems Manager Parameter Store
@@ -17,7 +17,7 @@ The module creates a public EC2 instance, an SSH security group, an EC2 key pair
 ## ⚠️ Important Notes
 
 - This module does not create the VPC or subnets
-- The bastion is launched in `public_subnet_ids[0]`, so at least one public subnet ID is required
+- The bastion is launched in the provided `subnet_id`
 - `bastion_ssh_ingress_cidrs` is required and should be restricted to trusted sources
 - In `prod`, validation blocks `0.0.0.0/0` for `bastion_ssh_ingress_cidrs`
 - `instance_type` is validated to the `t3` family only
@@ -27,7 +27,7 @@ The module creates a public EC2 instance, an SSH security group, an EC2 key pair
 Before using this module, you should already have:
 
 - An existing VPC
-- At least one public subnet
+- A public subnet ID
 - AWS credentials configured for Terraform
 - An SSH public key in a valid `ssh-rsa` or `ssh-ed25519` format
 
@@ -48,7 +48,7 @@ module "bastion" {
   source = "sergeimatos/bastion/aws"
 
   vpc_id                    = "vpc-1234567890abcdef0"
-  public_subnet_ids         = ["subnet-1234567890abcdef0"]
+  subnet_id                 = "subnet-1234567890abcdef0"
   ssh_public_key            = file("${path.module}/bastion_key.pub")
   bastion_ssh_ingress_cidrs = ["203.0.113.10/32"]
   environment               = "dev"
@@ -132,7 +132,7 @@ No modules.
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment tag for resources | `string` | `"dev"` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type for the EC2 instances | `string` | `"t3.micro"` | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Prefix for naming resources | `string` | `"bastion-dev"` | no |
-| <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | List of public subnet IDs for the Bastion Host | `list(string)` | n/a | yes |
+| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The public subnet ID where the Bastion Host will be launched | `string` | n/a | yes |
 | <a name="input_ssh_public_key"></a> [ssh\_public\_key](#input\_ssh\_public\_key) | The public key for SSH access to EC2 instances | `string` | n/a | yes |
 | <a name="input_ssm_parameter_name"></a> [ssm\_parameter\_name](#input\_ssm\_parameter\_name) | The name of the SSM parameter that contains the AMI ID for the Bastion Host | `string` | `"/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id"` | no |
 | <a name="input_user_data"></a> [user\_data](#input\_user\_data) | Optional user data script to run on instance launch | `string` | `null` | no |

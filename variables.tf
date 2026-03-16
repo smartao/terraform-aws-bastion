@@ -3,13 +3,13 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "public_subnet_ids" {
-  description = "List of public subnet IDs for the Bastion Host"
-  type        = list(string)
+variable "subnet_id" {
+  description = "The public subnet ID where the Bastion Host will be launched"
+  type        = string
 
   validation {
-    condition     = length(var.public_subnet_ids) > 0
-    error_message = "VALIDATION: public_subnet_ids must contain at least one public subnet ID."
+    condition     = can(regex("^subnet-", var.subnet_id))
+    error_message = "VALIDATION: subnet_id must be a valid AWS subnet ID starting with 'subnet-'."
   }
 }
 
