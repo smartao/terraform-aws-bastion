@@ -1,3 +1,5 @@
+![license](https://img.shields.io/badge/License-MIT-orange?style=flat-square)
+
 # 📦 terraform-aws-bastion
 
 Terraform module to provision an AWS bastion host in an existing VPC.
