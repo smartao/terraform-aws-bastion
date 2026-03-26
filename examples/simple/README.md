@@ -7,13 +7,13 @@ This example shows a minimal usage of the bastion module for an existing AWS VPC
 Replace the placeholder values in `simple.tf`:
 
 - `vpc_id`
-- `public_subnet_ids`
+- `subnet_id`
 - `ssh_public_key`
 
 You also need:
 
 - AWS credentials configured locally
-- At least one public subnet in the target VPC
+- A public subnet in the target VPC
 - A valid SSH public key
 
 Example key generation:
@@ -38,6 +38,6 @@ terraform apply
 
 ## Notes
 
-- The module creates the bastion in the first subnet from `public_subnet_ids`
+- The module creates the bastion in the provided `subnet_id`
 - `bastion_ssh_ingress_cidrs` is required and must be set explicitly
 - For real environments, restrict SSH access to trusted CIDRs such as your public IP with `/32`
